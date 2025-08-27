@@ -41,7 +41,7 @@ export default function DeliveryAssignment({ orderId, onAssignmentComplete }: De
         setError('Failed to fetch delivery drivers');
       }
     } catch (error) {
-      setError('Network error occurred');
+      setError(`Network error occurred: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -69,7 +69,7 @@ export default function DeliveryAssignment({ orderId, onAssignmentComplete }: De
       });
 
       if (response.ok) {
-        const result = await response.json();
+        await response.json();
         alert('Delivery assigned successfully!');
         onAssignmentComplete();
       } else {

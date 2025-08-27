@@ -9,9 +9,8 @@ import ProtectedRoute from '@/components/auth/ProtectedRoute';
 interface RestaurantFormData {
   name: string;
   address: string;
-  phone: string;
-  email: string;
-  description: string;
+  phone?: string;
+  description?: string;
 } 
 
 export default function CreateRestaurantPage() {

@@ -4,12 +4,11 @@ import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface OrderStatusManagerProps {
-  orderId: string;
   currentStatus: string;
   onStatusUpdate: (status: string, estimatedTime?: string) => Promise<void>;
 }
 
-export default function OrderStatusManager({ orderId, currentStatus, onStatusUpdate }: OrderStatusManagerProps) {
+export default function OrderStatusManager({  currentStatus, onStatusUpdate }: OrderStatusManagerProps) {
   const { user } = useAuth();
   const [isUpdating, setIsUpdating] = useState(false);
   const [estimatedTime, setEstimatedTime] = useState('');

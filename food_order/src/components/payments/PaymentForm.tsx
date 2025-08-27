@@ -1,11 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
-import { useAuth } from '@/contexts/AuthContext';
 
 interface PaymentFormProps {
-  clientSecret: string;
   amount: number;
   orderId: string;
   onSuccess: () => void;
@@ -13,7 +11,6 @@ interface PaymentFormProps {
 }
 
 export default function PaymentForm({ 
-  clientSecret, 
   amount, 
   orderId, 
   onSuccess, 
@@ -21,7 +18,6 @@ export default function PaymentForm({
 }: PaymentFormProps) {
   const stripe = useStripe();
   const elements = useElements();
-  const { user } = useAuth();
   
   const [isProcessing, setIsProcessing] = useState(false);
   const [message, setMessage] = useState<string | null>(null);

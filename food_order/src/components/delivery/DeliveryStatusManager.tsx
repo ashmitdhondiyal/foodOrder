@@ -9,7 +9,7 @@ interface DeliveryStatusManagerProps {
   onStatusUpdate: (status: string, notes?: string) => Promise<void>;
 }
 
-export default function DeliveryStatusManager({ deliveryId, currentStatus, onStatusUpdate }: DeliveryStatusManagerProps) {
+export default function DeliveryStatusManager({ currentStatus, onStatusUpdate }: DeliveryStatusManagerProps) {
   const { user } = useAuth();
   const [isUpdating, setIsUpdating] = useState(false);
   const [deliveryNotes, setDeliveryNotes] = useState('');

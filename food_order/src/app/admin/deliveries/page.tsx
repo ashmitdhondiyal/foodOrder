@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
-import DeliveryAssignment from '@/components/delivery/DeliveryAssignment';
 
 interface Delivery {
   id: string;
@@ -124,9 +123,7 @@ export default function AdminDeliveriesPage() {
     return delivery.status === filterStatus;
   });
 
-  const handleDeliveryAssigned = () => {
-    fetchDeliveries(); // Refresh the list
-  };
+  
 
   if (loading) {
     return (

@@ -90,7 +90,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return false;
       }
     } catch (error) {
-      setError('Network error occurred');
+      setError(`Network error occurred: ${error instanceof Error ? error.message : 'Unknown error'}`);
       return false;
     } finally {
       setIsLoading(false);
@@ -120,7 +120,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return false;
       }
     } catch (error) {
-      setError('Network error occurred');
+      setError(`Network error occurred: ${error instanceof Error ? error.message : 'Unknown error'}`);
       return false;
     } finally {
       setIsLoading(false);

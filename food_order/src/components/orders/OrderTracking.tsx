@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { useAuth } from '@/contexts/AuthContext';
 
 interface DeliveryInfo {
   id: string;
@@ -26,7 +25,6 @@ interface OrderTrackingProps {
 }
 
 export default function OrderTracking({ orderStatus, delivery, estimatedTime }: OrderTrackingProps) {
-  const { user } = useAuth();
 
   const getOrderStepStatus = (step: string) => {
     switch (step) {
@@ -131,7 +129,7 @@ export default function OrderTracking({ orderStatus, delivery, estimatedTime }: 
             { step: 'CONFIRMED', label: 'Order Confirmed', description: 'Restaurant has confirmed your order' },
             { step: 'PREPARING', label: 'Preparing Food', description: 'Chef is cooking your meal' },
             { step: 'READY', label: 'Ready for Pickup', description: 'Your food is ready!' }
-          ].map((stepInfo, index) => {
+          ].map((stepInfo) => {
             const status = getOrderStepStatus(stepInfo.step);
             return (
               <div key={stepInfo.step} className="flex items-start space-x-3">

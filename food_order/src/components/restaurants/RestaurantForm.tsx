@@ -3,16 +3,17 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 
+interface RestaurantFormData {
+  name: string;
+  address: string;
+  description?: string;
+  phone?: string;
+  cuisine?: string;
+}
+
 interface RestaurantFormProps {
-  restaurant?: {
-    id: string;
-    name: string;
-    address: string;
-    description?: string;
-    phone?: string;
-    cuisine?: string;
-  };
-  onSubmit: (data: any) => Promise<void>;
+  restaurant?: RestaurantFormData;
+  onSubmit: (data: RestaurantFormData) => Promise<void>;
   mode: 'create' | 'edit';
 }
 

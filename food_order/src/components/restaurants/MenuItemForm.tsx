@@ -2,17 +2,18 @@
 
 import React, { useState, useEffect } from 'react';
 
+interface MenuItemFormData {
+  name: string;
+  description?: string;
+  price: string;
+  imageUrl?: string;
+  category?: string;
+  isAvailable: boolean;
+}
+
 interface MenuItemFormProps {
-  menuItem?: {
-    id: string;
-    name: string;
-    description?: string;
-    price: number;
-    imageUrl?: string;
-    category?: string;
-    isAvailable: boolean;
-  };
-  onSubmit: (data: any) => Promise<void>;
+  menuItem?: MenuItemFormData;
+  onSubmit: (data: MenuItemFormData) => Promise<void>;
   mode: 'create' | 'edit';
   onCancel: () => void;
 }

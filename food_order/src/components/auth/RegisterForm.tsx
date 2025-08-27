@@ -105,7 +105,7 @@ export default function RegisterForm() {
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 value={role}
-                onChange={(e) => setRole(e.target.value as any)}
+                onChange={(e) => setRole(e.target.value as 'CUSTOMER' | 'RESTAURANT' | 'ADMIN')}
               >
                 <option value="CUSTOMER">Customer</option>
                 <option value="RESTAURANT">Restaurant Owner</option>

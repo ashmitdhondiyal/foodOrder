@@ -27,8 +27,6 @@ interface RestaurantCardProps {
 }
 
 export default function RestaurantCard({ restaurant, showMenuPreview = false }: RestaurantCardProps) {
-  const defaultImage = '/restaurant-placeholder.jpg'; // You can add a placeholder image
-
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="relative h-48 bg-gray-200">
