@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAuth, requireRole } from '@/lib/auth';
+import { requireAuth } from '@/lib/auth';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ user });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: error },
       { status: 500 }
     );
   }
@@ -73,7 +73,7 @@ export async function PUT(request: NextRequest) {
     });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: error },
       { status: 500 }
     );
   }

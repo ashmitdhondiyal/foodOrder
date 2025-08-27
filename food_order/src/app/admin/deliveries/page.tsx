@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import DeliveryAssignment from '@/components/delivery/DeliveryAssignment';
 
@@ -41,7 +40,7 @@ interface Delivery {
 }
 
 export default function AdminDeliveriesPage() {
-  const { user } = useAuth();
+  
   const [deliveries, setDeliveries] = useState<Delivery[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -156,10 +155,7 @@ export default function AdminDeliveriesPage() {
             </p>
           </div>
 
-          {/* Delivery Assignment */}
-          <div className="mb-8">
-            <DeliveryAssignment onDeliveryAssigned={handleDeliveryAssigned} />
-          </div>
+         
 
           {/* Filters */}
           <div className="mb-6">

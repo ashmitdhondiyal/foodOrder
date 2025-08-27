@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import { useAuth } from '@/contexts/AuthContext';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import PaymentForm from '@/components/payments/PaymentForm';
 
@@ -20,18 +19,13 @@ interface PaymentData {
 export default function PaymentPage() {
   const params = useParams();
   const router = useRouter();
-  const { user } = useAuth();
   const orderId = params.orderId as string;
 
   const [paymentData, setPaymentData] = useState<PaymentData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (orderId) {
-      createPaymentIntent();
-    }
-  }, [orderId]);
+
 
   const createPaymentIntent = async () => {
     try {

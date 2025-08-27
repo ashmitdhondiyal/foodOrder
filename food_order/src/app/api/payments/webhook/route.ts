@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { stripe, mapStripeStatusToPaymentStatus } from '@/lib/stripe';
+import { stripe } from '@/lib/stripe';
 import { PrismaClient } from '@prisma/client';
 import { headers } from 'next/headers';
+import Stripe from 'stripe';
 
 const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.text();
-    const signature = headers().get('stripe-signature');
+    const signature = (await headers()).get('stripe-signature');
 
     if (!signature) {
       return NextResponse.json(
@@ -65,7 +66,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function handlePaymentSuccess(paymentIntent: any) {
+async function handlePaymentSuccess(paymentIntent: Stripe.PaymentIntent) {
   try {
     const { orderId } = paymentIntent.metadata;
     
@@ -79,7 +80,7 @@ async function handlePaymentSuccess(paymentIntent: any) {
       where: { stripePaymentIntentId: paymentIntent.id },
       data: {
         status: 'SUCCESS',
-        stripePaymentMethodId: paymentIntent.payment_method,
+        stripePaymentMethodId: paymentIntent.payment_method as string,
         processedAt: new Date(),
       },
     });
@@ -96,7 +97,7 @@ async function handlePaymentSuccess(paymentIntent: any) {
   }
 }
 
-async function handlePaymentFailure(paymentIntent: any) {
+async function handlePaymentFailure(paymentIntent: Stripe.PaymentIntent) {
   try {
     const { orderId } = paymentIntent.metadata;
     
@@ -126,7 +127,7 @@ async function handlePaymentFailure(paymentIntent: any) {
   }
 }
 
-async function handlePaymentCancellation(paymentIntent: any) {
+async function handlePaymentCancellation(paymentIntent: Stripe.PaymentIntent) {
   try {
     const { orderId } = paymentIntent.metadata;
     
@@ -156,11 +157,11 @@ async function handlePaymentCancellation(paymentIntent: any) {
   }
 }
 
-async function handleRefund(charge: any) {
+  async function handleRefund(charge: Stripe.Charge) {
   try {
     // Find payment by charge ID
     const payment = await prisma.payment.findFirst({
-      where: { stripePaymentIntentId: charge.payment_intent },
+      where: { stripePaymentIntentId: charge.payment_intent as string },
     });
 
     if (!payment) {

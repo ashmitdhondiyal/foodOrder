@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireRole } from '@/lib/auth';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Role } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ users });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: error },
       { status: 500 }
     );
   }
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
 
     const updatedUser = await prisma.user.update({
       where: { id: userId },
-      data: { role: newRole as any },
+      data: { role: newRole as Role },
       select: {
         id: true,
         name: true,
@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: error },
       { status: 500 }
     );
   }

@@ -6,6 +6,14 @@ import { useAuth } from '@/contexts/AuthContext';
 import RestaurantForm from '@/components/restaurants/RestaurantForm';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 
+interface RestaurantFormData {
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+  description: string;
+} 
+
 export default function CreateRestaurantPage() {
   return (
     <ProtectedRoute allowedRoles={['RESTAURANT']}>
@@ -18,7 +26,7 @@ function CreateRestaurantContent() {
   const router = useRouter();
   const { user } = useAuth();
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: RestaurantFormData) => {
     try {
       const response = await fetch('/api/restaurants', {
         method: 'POST',

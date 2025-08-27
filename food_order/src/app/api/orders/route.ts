@@ -119,7 +119,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { restaurantId, items, specialInstructions } = await request.json();
+    const { restaurantId, items } = await request.json();
 
     if (!restaurantId || !items || items.length === 0) {
       return NextResponse.json(
@@ -141,7 +141,6 @@ export async function POST(request: NextRequest) {
     }
 
     // Calculate total price
-    let totalPrice = 0;
     const orderItems = [];
 
     for (const item of items) {
@@ -170,7 +169,6 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      totalPrice += menuItem.price * item.quantity;
       orderItems.push({
         menuItemId: item.menuItemId,
         quantity: item.quantity,

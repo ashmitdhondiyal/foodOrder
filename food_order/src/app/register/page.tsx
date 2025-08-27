@@ -45,7 +45,7 @@ export default function RegisterPage() {
         setError('Registration failed. Please try again.');
       }
     } catch (err) {
-      setError('An error occurred during registration');
+      setError(`An error occurred during registration: ${err instanceof Error ? err.message : 'Unknown error'}`);
     } finally {
       setIsLoading(false);
     }

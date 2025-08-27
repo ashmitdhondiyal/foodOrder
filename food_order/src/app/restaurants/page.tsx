@@ -39,7 +39,7 @@ export default function RestaurantsPage() {
     try {
       const response = await fetch('/api/restaurants');
       if (response.ok) {
-        const data = await response.json();
+
         // Add mock data for demo
         const mockRestaurants: Restaurant[] = [
           {

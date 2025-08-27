@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 
@@ -23,12 +22,12 @@ export default function LoginPage() {
     try {
       const success = await login(email, password);
       if (success) {
-        router.push('/dashboard');
+        router.push('/');
       } else {
         setError('Invalid email or password');
       }
     } catch (err) {
-      setError('An error occurred during login');
+      setError('An error occurred during login', err);
     } finally {
       setIsLoading(false);
     }

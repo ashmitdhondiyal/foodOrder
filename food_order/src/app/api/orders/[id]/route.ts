@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth';
-import { PrismaClient } from '@prisma/client';
+import { OrderStatus, PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -145,7 +145,7 @@ export async function PUT(
     const updatedOrder = await prisma.order.update({
       where: { id: params.id },
       data: {
-        status: status as any,
+        status: status as OrderStatus,
         estimatedTime
       },
       include: {

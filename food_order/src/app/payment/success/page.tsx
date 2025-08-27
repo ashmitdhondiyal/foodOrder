@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 
 interface OrderDetails {
@@ -23,20 +22,13 @@ interface OrderDetails {
 
 export default function PaymentSuccessPage() {
   const searchParams = useSearchParams();
-  const router = useRouter();
-  const { user } = useAuth();
   const orderId = searchParams.get('orderId');
 
   const [orderDetails, setOrderDetails] = useState<OrderDetails | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (orderId) {
-      fetchOrderDetails();
-    }
-  }, [orderId]);
-
-  const fetchOrderDetails = async () => {
+    const fetchOrderDetails = async () => {
     try {
       const response = await fetch(`/api/orders/${orderId}`, {
         headers: {
@@ -54,6 +46,13 @@ export default function PaymentSuccessPage() {
       setLoading(false);
     }
   };
+
+  if (orderId) {
+    fetchOrderDetails();
+  }
+  }, [orderId]);
+
+  
 
   if (loading) {
     return (
@@ -113,10 +112,10 @@ export default function PaymentSuccessPage() {
 
           {/* Next Steps */}
           <div className="bg-blue-50 rounded-lg border border-blue-200 p-6 mb-8">
-            <h3 className="text-lg font-semibold text-blue-900 mb-3">What's Next?</h3>
+            <h3 className="text-lg font-semibold text-blue-900 mb-3">What&apos;s Next?</h3>
             <div className="space-y-3 text-blue-800">
               <p>• Your order has been sent to the restaurant</p>
-              <p>• You'll receive updates on your order status</p>
+              <p>• You&apos;ll receive updates on your order status</p>
               <p>• Track your order progress in real-time</p>
             </div>
           </div>

@@ -1,13 +1,12 @@
 'use client';
 
-import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCart } from "@/contexts/CartContext";
 
 export default function Home() {
   const { user, logout } = useAuth();
-  const { hasItems, getTotalItems, getTotalPrice } = useCart();
+  const { hasItems, getTotalItems } = useCart();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">

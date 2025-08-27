@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth';
-import { PrismaClient } from '@prisma/client';
+import { DeliveryStatus, PrismaClient } from '@prisma/client';
+
+interface DeliveryUpdateData {
+  status: DeliveryStatus;
+  deliveryNotes?: string;
+  pickedUpAt?: Date;
+  deliveredAt?: Date;
+  actualDeliveryTime?: Date;
+}
 
 const prisma = new PrismaClient();
 
@@ -81,7 +89,7 @@ export async function GET(
   } catch (error) {
     console.error('Error fetching delivery:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: error },
       { status: 500 }
     );
   }
@@ -143,8 +151,8 @@ export async function PUT(
     }
 
     // Prepare update data
-    const updateData: any = {
-      status: status as any,
+    const updateData: DeliveryUpdateData = {
+      status: status as DeliveryStatus,
       deliveryNotes
     };
 
@@ -205,7 +213,7 @@ export async function PUT(
   } catch (error) {
     console.error('Error updating delivery:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: error },
       { status: 500 }
     );
   }
