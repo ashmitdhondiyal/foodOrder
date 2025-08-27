@@ -23,7 +23,7 @@
 
 ### Backend Technologies
 - **Next.js API Routes** - Server-side API endpoints
-- **Prisma 5.0.0** - Modern database ORM
+- **Prisma 5.22.0** - Modern database ORM
 - **PostgreSQL** - Relational database
 - **JWT (jsonwebtoken)** - Authentication tokens
 - **bcryptjs** - Password hashing
@@ -266,12 +266,82 @@ JWT_SECRET="your-super-secret-jwt-key-here"
 STRIPE_SECRET_KEY="sk_test_..."
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_..."
 STRIPE_WEBHOOK_SECRET="whsec_..."
+
+# Next.js
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-nextauth-secret-here"
+
+# Prisma
+PRISMA_GENERATE_DATAPROXY="true"
 ```
 
 ### Database Configuration
 - PostgreSQL database
 - Prisma ORM for database operations
 - Automatic migrations and schema generation
+
+## 🚀 Vercel Deployment
+
+### Prerequisites for Vercel
+- Vercel account
+- PostgreSQL database (Supabase, Railway, or similar)
+- Stripe account for payments
+
+### Deployment Steps
+
+1. **Push your code to GitHub**
+   ```bash
+   git add .
+   git commit -m "Fix Prisma build issues"
+   git push origin main
+   ```
+
+2. **Connect to Vercel**
+   - Go to [vercel.com](https://vercel.com)
+   - Import your GitHub repository
+   - Vercel will automatically detect Next.js
+
+3. **Configure Environment Variables in Vercel**
+   - Go to Project Settings → Environment Variables
+   - Add all your environment variables:
+     - `DATABASE_URL` (your production PostgreSQL URL)
+     - `JWT_SECRET` (strong secret for production)
+     - `STRIPE_SECRET_KEY` (your Stripe live key)
+     - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` (your Stripe live publishable key)
+     - `STRIPE_WEBHOOK_SECRET` (your Stripe webhook secret)
+     - `NEXTAUTH_URL` (your Vercel domain)
+     - `NEXTAUTH_SECRET` (strong secret for production)
+
+4. **Deploy**
+   - Vercel will automatically build and deploy
+   - The build should now succeed with the Prisma fixes
+
+### Vercel-Specific Configuration
+
+The project includes:
+- `vercel.json` - Vercel deployment configuration
+- Updated `next.config.ts` - Prisma compatibility
+- `postinstall` script in package.json - Automatic Prisma client generation
+
+### Troubleshooting Vercel Build
+
+If you still encounter issues:
+
+1. **Check Prisma Client Generation**
+   ```bash
+   # Locally test the build
+   npm run build
+   ```
+
+2. **Verify Database Connection**
+   - Ensure your production DATABASE_URL is correct
+   - Test connection from Vercel's environment
+
+3. **Check Prisma Migrations**
+   ```bash
+   # Run migrations on production database
+   npx prisma migrate deploy
+   ```
 
 ## 📚 Learning Outcomes
 
@@ -321,9 +391,6 @@ STRIPE_WEBHOOK_SECRET="whsec_..."
 
 - [Authentication Setup Guide](food_order/AUTH_SETUP.md)
 - [Stripe Payment Setup](food_order/STRIPE_SETUP.md)
-- [API Documentation](docs/api.md)
-- [Database Schema](docs/database.md)
-- [Deployment Guide](docs/deployment.md)
 
 ## 🤝 Contributing
 

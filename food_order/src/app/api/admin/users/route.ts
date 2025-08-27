@@ -1,20 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireRole } from '@/lib/auth';
-import { PrismaClient, Role } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { Role } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 
 export async function GET(request: NextRequest) {
-  const payload = requireRole(request, ['ADMIN']);
-  
-  if (!payload) {
-    return NextResponse.json(
-      { error: 'Access denied. Admin role required.' },
-      { status: 403 }
-    );
-  }
-
   try {
+    const payload = requireRole(request, ['ADMIN']);
+    
+    if (!payload) {
+      return NextResponse.json(
+        { error: 'Access denied. Admin role required.' },
+        { status: 403 }
+      );
+    }
+
     const users = await prisma.user.findMany({
       select: {
         id: true,
@@ -26,26 +25,27 @@ export async function GET(request: NextRequest) {
       orderBy: { createdAt: 'desc' }
     });
 
-    return NextResponse.json({ users });
+    return NextResponse.json({ success: true, data: { users } });
   } catch (error) {
+    console.error('Admin users GET error:', error);
     return NextResponse.json(
-      { error: 'Internal server error', details: error },
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }
 }
 
 export async function POST(request: NextRequest) {
-  const payload = requireRole(request, ['ADMIN']);
-  
-  if (!payload) {
-    return NextResponse.json(
-      { error: 'Access denied. Admin role required.' },
-      { status: 403 }
-    );
-  }
-
   try {
+    const payload = requireRole(request, ['ADMIN']);
+    
+    if (!payload) {
+      return NextResponse.json(
+        { error: 'Access denied. Admin role required.' },
+        { status: 403 }
+      );
+    }
+
     const { userId, newRole } = await request.json();
 
     if (!userId || !newRole) {
@@ -76,12 +76,14 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({
+      success: true,
       message: 'User role updated successfully',
-      user: updatedUser
+      data: { user: updatedUser }
     });
   } catch (error) {
+    console.error('Admin users POST error:', error);
     return NextResponse.json(
-      { error: 'Internal server error', details: error },
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }
