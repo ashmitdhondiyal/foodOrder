@@ -1,19 +1,33 @@
 import Stripe from 'stripe';
 
-// Initialize Stripe server-side
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2023-10-16',
-});
+// Initialize Stripe server-side only if API key is provided
+export const stripe = process.env.STRIPE_SECRET_KEY 
+  ? new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2025-07-30.basil',
+    })
+  : null;
 
 // Stripe configuration
 export const STRIPE_CONFIG = {
-  publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
-  secretKey: process.env.STRIPE_SECRET_KEY!,
-  webhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
+  publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '',
+  secretKey: process.env.STRIPE_SECRET_KEY || '',
+  webhookSecret: process.env.STRIPE_WEBHOOK_SECRET || '',
 };
+
+// Check if Stripe is properly configured
+export function isStripeConfigured(): boolean {
+  return !!stripe;
+}
 
 // Payment intent creation
 export async function createPaymentIntent(amount: number, orderId: string, customerEmail: string) {
+  if (!stripe) {
+    return {
+      success: false,
+      error: 'Payment processing is not available. Stripe is not configured.',
+    };
+  }
+  
   try {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100), // Convert to cents
@@ -43,6 +57,13 @@ export async function createPaymentIntent(amount: number, orderId: string, custo
 
 // Payment intent retrieval
 export async function getPaymentIntent(paymentIntentId: string) {
+  if (!stripe) {
+    return {
+      success: false,
+      error: 'Payment processing is not available. Stripe is not configured.',
+    };
+  }
+  
   try {
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
     return {
@@ -60,6 +81,13 @@ export async function getPaymentIntent(paymentIntentId: string) {
 
 // Payment method retrieval
 export async function getPaymentMethod(paymentMethodId: string) {
+  if (!stripe) {
+    return {
+      success: false,
+      error: 'Payment processing is not available. Stripe is not configured.',
+    };
+  }
+  
   try {
     const paymentMethod = await stripe.paymentMethods.retrieve(paymentMethodId);
     return {
@@ -77,6 +105,13 @@ export async function getPaymentMethod(paymentMethodId: string) {
 
 // Refund creation
 export async function createRefund(paymentIntentId: string, amount?: number) {
+  if (!stripe) {
+    return {
+      success: false,
+      error: 'Payment processing is not available. Stripe is not configured.',
+    };
+  }
+  
   try {
     const refund = await stripe.refunds.create({
       payment_intent: paymentIntentId,
@@ -98,6 +133,13 @@ export async function createRefund(paymentIntentId: string, amount?: number) {
 
 // Customer creation
 export async function createCustomer(email: string, name: string) {
+  if (!stripe) {
+    return {
+      success: false,
+      error: 'Payment processing is not available. Stripe is not configured.',
+    };
+  }
+  
   try {
     const customer = await stripe.customers.create({
       email,
@@ -119,6 +161,13 @@ export async function createCustomer(email: string, name: string) {
 
 // Customer retrieval
 export async function getCustomer(customerId: string) {
+  if (!stripe) {
+    return {
+      success: false,
+      error: 'Payment processing is not available. Stripe is not configured.',
+    };
+  }
+  
   try {
     const customer = await stripe.customers.retrieve(customerId);
     return {

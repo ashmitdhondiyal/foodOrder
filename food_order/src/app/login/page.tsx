@@ -27,7 +27,7 @@ export default function LoginPage() {
         setError('Invalid email or password');
       }
     } catch (err) {
-      setError('An error occurred during login', err);
+      setError(`An error occurred during login: ${err instanceof Error ? err.message : 'Unknown error'}`);
     } finally {
       setIsLoading(false);
     }

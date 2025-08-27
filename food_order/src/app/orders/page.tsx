@@ -70,7 +70,7 @@ function OrdersContent() {
         setError('Failed to fetch orders');
       }
     } catch (error) {
-      setError('Network error occurred', error);
+      setError(`Network error occurred: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsLoading(false);
     }

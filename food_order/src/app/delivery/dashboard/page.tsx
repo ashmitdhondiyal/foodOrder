@@ -137,8 +137,8 @@ export default function DeliveryDashboardPage() {
     ['DELIVERED', 'CANCELLED', 'FAILED'].includes(delivery.status)
   );
 
-  const handleDeliveryUpdated = () => {
-    fetchDeliveries(); // Refresh the list
+  const handleDeliveryUpdated = async () => {
+    await fetchDeliveries(); // Refresh the list
   };
 
   if (loading) {
@@ -354,10 +354,10 @@ export default function DeliveryDashboardPage() {
 
                   {/* Delivery Status Manager */}
                   <div className="mb-4">
-                    <DeliveryStatusManager 
+                    <DeliveryStatusManager
                       deliveryId={delivery.id} 
                       currentStatus={delivery.status}
-                      onStatusUpdated={handleDeliveryUpdated}
+                      onStatusUpdate={handleDeliveryUpdated}
                     />
                   </div>
 

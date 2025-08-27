@@ -222,7 +222,7 @@ export async function POST(request: NextRequest) {
         amount: amount || payment.amount,
         reason: reason || 'Admin refund',
         status: 'SUCCESS',
-        stripeRefundId: refundResult.refund.id,
+        stripeRefundId: refundResult.refund?.id || "",
         processedAt: new Date(),
       },
     });

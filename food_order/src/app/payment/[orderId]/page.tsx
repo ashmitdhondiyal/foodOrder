@@ -156,7 +156,6 @@ export default function PaymentPage() {
             }}
           >
             <PaymentForm
-              clientSecret={paymentData.clientSecret}
               amount={paymentData.amount}
               orderId={orderId}
               onSuccess={handlePaymentSuccess}
