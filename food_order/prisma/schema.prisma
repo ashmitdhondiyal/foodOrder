@@ -1,0 +1,159 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(CUSTOMER)
+  orders    Order[]
+  createdAt DateTime @default(now())
+  restaurant Restaurant?
+  delivery   Delivery?
+}
+
+enum Role {
+  CUSTOMER
+  RESTAURANT
+  ADMIN
+  DELIVERY
+}
+
+model Restaurant {
+  id        String   @id @default(cuid())
+  name      String
+  address   String    
+  description String?
+  phone     String?
+  cuisine   String?
+  owner     User     @relation(fields: [ownerId], references: [id])
+  ownerId   String   @unique
+  menuItems MenuItem[]
+  orders    Order[]
+  createdAt DateTime @default(now())
+}
+
+model MenuItem {
+  id           String     @id @default(cuid())
+  name         String
+  description  String?
+  price        Float
+  imageUrl     String?
+  category     String?
+  isAvailable  Boolean    @default(true)
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId String
+  orderItems   OrderItem[]
+}
+
+model Order {
+  id           String       @id @default(cuid())
+  customer     User         @relation(fields: [customerId], references: [id])
+  customerId   String
+  restaurant   Restaurant   @relation(fields: [restaurantId], references: [id])
+  restaurantId String
+  items        OrderItem[]
+  delivery     Delivery?
+  payment      Payment?
+  status       OrderStatus  @default(PENDING)
+  estimatedTime DateTime?   // NEW: Estimated completion time
+  specialInstructions String? // NEW: Customer special instructions
+  createdAt    DateTime     @default(now())
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   String
+  menuItem  MenuItem @relation(fields: [menuItemId], references: [id])
+  menuItemId String
+  quantity  Int
+  price     Float    // NEW: Price at time of order
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  READY
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+}
+
+model Delivery {
+  id          String   @id @default(cuid())
+  order       Order    @relation(fields: [orderId], references: [id])
+  orderId     String   @unique
+  driver      User     @relation(fields: [driverId], references: [id])
+  driverId    String   @unique
+  status      DeliveryStatus @default(ASSIGNED)
+  assignedAt  DateTime @default(now()) // NEW: When delivery was assigned
+  pickedUpAt  DateTime? // NEW: When order was picked up
+  deliveredAt DateTime? // NEW: When order was delivered
+  estimatedDeliveryTime DateTime? // NEW: Estimated delivery time
+  actualDeliveryTime DateTime? // NEW: Actual delivery time
+  deliveryNotes String? // NEW: Delivery notes from driver
+  updatedAt   DateTime @updatedAt
+}
+
+enum DeliveryStatus {
+  ASSIGNED
+  PICKED_UP
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+  FAILED
+}
+
+model Payment {
+  id        String   @id @default(cuid())
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   String   @unique
+  amount    Float
+  status    PaymentStatus @default(PENDING)
+  stripePaymentIntentId String? @unique
+  stripePaymentMethodId String?
+  refunded  Boolean  @default(false)
+  refundedAt DateTime?
+  processedAt DateTime?
+  createdAt DateTime @default(now())
+  refunds   Refund[]
+}
+
+model Refund {
+  id        String   @id @default(cuid())
+  payment   Payment  @relation(fields: [paymentId], references: [id])
+  paymentId String
+  amount    Float
+  reason    String?
+  status    RefundStatus @default(PENDING)
+  stripeRefundId String? @unique
+  processedAt DateTime?
+  createdAt DateTime @default(now())
+}
+
+enum RefundStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
