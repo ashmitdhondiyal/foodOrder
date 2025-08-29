@@ -27,8 +27,8 @@ export default function RestaurantsPage() {
   const [sortBy, setSortBy] = useState('rating');
 
   const cuisines = [
-    'all', 'Italian', 'Chinese', 'Indian', 'Mexican', 'Japanese', 
-    'American', 'Thai', 'Mediterranean', 'Korean', 'Vietnamese'
+    'all', 'Italian', 'American', 'Japanese', 'Mexican', 'Indian', 
+    'Vietnamese', 'Thai', 'Mediterranean', 'Korean', 'Seafood'
   ];
 
   useEffect(() => {
@@ -45,10 +45,10 @@ export default function RestaurantsPage() {
           {
             id: '1',
             name: 'Pizza Palace',
-            description: 'Authentic Italian pizza made with fresh ingredients and traditional recipes.',
+            description: 'Authentic Italian pizza made with fresh ingredients and traditional recipes. Our wood-fired ovens create the perfect crispy crust every time.',
             address: '123 Main St, Downtown',
             cuisine: 'Italian',
-            imageUrl: '/api/placeholder/400/300',
+            imageUrl: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=300&fit=crop',
             rating: 4.8,
             deliveryTime: '25-35 min',
             minimumOrder: 15,
@@ -57,10 +57,10 @@ export default function RestaurantsPage() {
           {
             id: '2',
             name: 'Burger House',
-            description: 'Juicy burgers, crispy fries, and classic American comfort food.',
+            description: 'Juicy burgers, crispy fries, and classic American comfort food. Made with premium beef and fresh ingredients.',
             address: '456 Oak Ave, Midtown',
             cuisine: 'American',
-            imageUrl: '/api/placeholder/400/300',
+            imageUrl: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop',
             rating: 4.5,
             deliveryTime: '20-30 min',
             minimumOrder: 12,
@@ -69,10 +69,10 @@ export default function RestaurantsPage() {
           {
             id: '3',
             name: 'Sushi Express',
-            description: 'Fresh sushi and Japanese cuisine prepared by expert chefs.',
+            description: 'Fresh sushi and Japanese cuisine prepared by expert chefs. Premium fish and authentic Japanese ingredients.',
             address: '789 Pine St, Uptown',
             cuisine: 'Japanese',
-            imageUrl: '/api/placeholder/400/300',
+            imageUrl: 'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=400&h=300&fit=crop',
             rating: 4.7,
             deliveryTime: '30-45 min',
             minimumOrder: 20,
@@ -81,10 +81,10 @@ export default function RestaurantsPage() {
           {
             id: '4',
             name: 'Taco Fiesta',
-            description: 'Authentic Mexican tacos, burritos, and traditional dishes.',
+            description: 'Authentic Mexican tacos, burritos, and traditional dishes. Spicy flavors and fresh ingredients.',
             address: '321 Elm St, Westside',
             cuisine: 'Mexican',
-            imageUrl: '/api/placeholder/400/300',
+            imageUrl: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&h=300&fit=crop',
             rating: 4.3,
             deliveryTime: '15-25 min',
             minimumOrder: 10,
@@ -93,25 +93,73 @@ export default function RestaurantsPage() {
           {
             id: '5',
             name: 'Curry Corner',
-            description: 'Spicy Indian curries, naan bread, and aromatic rice dishes.',
+            description: 'Spicy Indian curries, naan bread, and aromatic rice dishes. Authentic spices and traditional recipes.',
             address: '654 Maple Dr, Eastside',
             cuisine: 'Indian',
-            imageUrl: '/api/placeholder/400/300',
+            imageUrl: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=300&fit=crop',
             rating: 4.6,
-            deliveryTime: '35-50 min',
+            deliveryTime: '25-40 min',
             minimumOrder: 18,
             isOpen: true
           },
           {
             id: '6',
             name: 'Pho Delight',
-            description: 'Traditional Vietnamese pho and fresh spring rolls.',
+            description: 'Traditional Vietnamese pho and fresh spring rolls. Authentic flavors and fresh herbs.',
             address: '987 Cedar Ln, Southside',
             cuisine: 'Vietnamese',
-            imageUrl: '/api/placeholder/400/300',
+            imageUrl: 'https://images.unsplash.com/photo-1559847844-5315695dadae?w=400&h=300&fit=crop',
             rating: 4.4,
             deliveryTime: '25-40 min',
             minimumOrder: 14,
+            isOpen: true
+          },
+          {
+            id: '7',
+            name: 'Thai Spice',
+            description: 'Authentic Thai cuisine with bold flavors, fresh herbs, and aromatic spices.',
+            address: '555 Spice Ave, Northside',
+            cuisine: 'Thai',
+            imageUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop',
+            rating: 4.7,
+            deliveryTime: '30-45 min',
+            minimumOrder: 16,
+            isOpen: true
+          },
+          {
+            id: '8',
+            name: 'Greek Garden',
+            description: 'Mediterranean delights with fresh seafood, grilled meats, and traditional Greek dishes.',
+            address: '777 Olive St, Westside',
+            cuisine: 'Mediterranean',
+            imageUrl: 'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&h=300&fit=crop',
+            rating: 4.5,
+            deliveryTime: '25-35 min',
+            minimumOrder: 20,
+            isOpen: true
+          },
+          {
+            id: '9',
+            name: 'Korean BBQ',
+            description: 'Authentic Korean barbecue with premium meats, banchan sides, and traditional flavors.',
+            address: '888 Kimchi Rd, Eastside',
+            cuisine: 'Korean',
+            imageUrl: 'https://images.unsplash.com/photo-1553621042-f6e147245754?w=400&h=300&fit=crop',
+            rating: 4.6,
+            deliveryTime: '35-50 min',
+            minimumOrder: 25,
+            isOpen: true
+          },
+          {
+            id: '10',
+            name: 'Seafood Harbor',
+            description: 'Fresh seafood and coastal cuisine with daily catches and ocean-inspired dishes.',
+            address: '999 Harbor Dr, Waterfront',
+            cuisine: 'Seafood',
+            imageUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop',
+            rating: 4.8,
+            deliveryTime: '40-55 min',
+            minimumOrder: 30,
             isOpen: true
           }
         ];

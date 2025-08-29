@@ -36,6 +36,12 @@ export default function RestaurantCard({ restaurant, showMenuPreview = false }: 
             alt={restaurant.name}
             fill
             className="object-cover"
+            onError={(e) => {
+              // Fallback to placeholder if image fails to load
+              const target = e.target as HTMLImageElement;
+              target.style.display = 'none';
+              target.nextElementSibling?.classList.remove('hidden');
+            }}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-300">
